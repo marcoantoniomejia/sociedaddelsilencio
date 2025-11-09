@@ -1,0 +1,49 @@
+name: Build and Deploy to Cloud Run
+
+on:
+  push:
+    branches:
+      - main # O la rama que uses para tu código principal
+
+env:
+  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  REGION: ${{ secrets.GCP_REGION }}
+  SERVICE_NAME: www-ss322 # Nombre de tu servicio en Cloud Run
+  ARTIFACT_REGISTRY_REPO: ${{ secrets.ARTIFACT_REGISTRY_REPO }} # Nombre de tu repositorio de Artifact Registry
+  GCP_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }} # Nuevo secreto
+  GCP_SERVICE_ACCOUNT: ${{ secrets.GCP_SERVICE_ACCOUNT }} # Nuevo secreto
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud via Workload Identity Federation
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ env.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ env.GCP_SERVICE_ACCOUNT }}
+
+      - name: Build and Push image with Cloud Build
+        run: |
+          gcloud builds submit --tag ${REGION}-docker.pkg.dev/${PROJECT_ID}/${ARTIFACT_REGISTRY_REPO}/${SERVICE_NAME}:${{ github.sha }} .
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy ${SERVICE_NAME} \
+            --image ${REGION}-docker.pkg.dev/${PROJECT_ID}/${ARTIFACT_REGISTRY_REPO}/${SERVICE_NAME}:${{ github.sha }} \
+            --region ${REGION} \
+            --platform managed \
+            --allow-unauthenticated # O --no-allow-unauthenticated si necesitas autenticación \
+            --port 80 # O el puerto que tu aplicación escucha, si es diferente de 8080 \
+            --cpu 1 # Configurar CPUs \
+            --memory 512Mi # Configurar memoria
+            # --set-env-vars KEY=VALUE # Para variables de entorno
+            --max-instances 3 # Limitar instancias
+            --min-instances 0 # Minimo de instancias

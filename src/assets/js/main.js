@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // --- Animación de aparición de secciones al hacer scroll ---
-    const sections = document.querySelectorAll('.content-section');
+    const sections = document.querySelectorAll('.section');
 
     const observerOptions = {
         root: null, // viewport
