@@ -94,7 +94,7 @@ La cuenta de servicio (`GCP_SA_KEY`) necesita los siguientes roles de IAM en tu 
 
 A continuación, se detallan los pasos para configurar la infraestructura en GCP desde cero.
 
-### 1. Crear Proyecto y Habilitar APIs
+### 5.1. Crear Proyecto y Habilitar APIs
 
 | Paso | Comando de `gcloud` |
 | :--- | :--- |
@@ -102,13 +102,15 @@ A continuación, se detallan los pasos para configurar la infraestructura en GCP
 | 2. Configurar el proyecto | `gcloud config set project SOCIEDAD_DEL_SILENCIO_PROJECT_ID` |
 | 3. Habilitar APIs | `gcloud services enable run.googleapis.com artifactregistry.googleapis.com cloudbuild.googleapis.com compute.googleapis.com` |
 
-### 2. Configurar Artifact Registry
+### 5.2. Configurar Artifact Registry
+
+Cree un repositorio en Artifact Registry para almacenar las imágenes de contenedor Docker.
 
 | Paso | Comando de `gcloud` |
 | :--- | :--- |
 | 1. Crear repositorio | `gcloud artifacts repositories create sociedaddelsilencio-repo --repository-format=docker --location=us-central1` |
 
-### 3. Desplegar Cloud Run (Inicialmente)
+### 5.3. Desplegar Cloud Run (Inicialmente)
 
 Aunque el despliegue será automático, es una buena práctica hacer un despliegue inicial manual o tener el servicio creado.
 
@@ -116,7 +118,7 @@ Aunque el despliegue será automático, es una buena práctica hacer un desplieg
 | :--- | :--- |
 | 1. Desplegar servicio | `gcloud run deploy www-ss322 --image=us-central1-docker.pkg.dev/SOCIEDAD_DEL_SILENCIO_PROJECT_ID/sociedaddelsilencio-repo/www-ss322:latest --platform=managed --region=us-central1 --allow-unauthenticated` |
 
-### 4. Configurar el Balanceador de Carga y SSL
+### 5.4. Configurar el Balanceador de Carga y SSL
 
 | Paso | Descripción |
 | :--- | :--- |
@@ -125,7 +127,7 @@ Aunque el despliegue será automático, es una buena práctica hacer un desplieg
 | 3. Crear Frontend | En la configuración del frontend, selecciona el protocolo `HTTPS`, asigna la IP estática que reservaste y crea un nuevo certificado SSL gestionado por Google para tu dominio. |
 | 4. Finalizar | Revisa y crea el balanceador de carga. |
 
-### 5. Configurar Cloud Armor
+### 5.5. Configurar Cloud Armor
 
 | Paso | Descripción |
 | :--- | :--- |

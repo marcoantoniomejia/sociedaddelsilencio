@@ -25,7 +25,7 @@
     <meta name="twitter:image" content="https://www.sociedaddelsilencio322.org/assets/images/logoSS322-new01.png">
 
     <!-- Favicon -->
-    <link rel="icon" href="assets/images/LogoSS322.jpeg" type="image/svg+xml">
+    <link rel="icon" href="assets/images/logoSS322-new01.png" type="image/png">
 
     <!-- CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
@@ -74,26 +74,8 @@
                     </div>
 
                     <div class="form__group">
-                        <label class="form__label">Fecha de Nacimiento</label>
-                        <div class="form__date-group">
-                            <input type="number" name="dia_nacimiento" placeholder="Día" class="form__input" required min="1" max="31">
-                            <select name="mes_nacimiento" class="form__input" required>
-                                <option value="" disabled selected>Mes</option>
-                                <option value="Enero">Enero</option>
-                                <option value="Febrero">Febrero</option>
-                                <option value="Marzo">Marzo</option>
-                                <option value="Abril">Abril</option>
-                                <option value="Mayo">Mayo</option>
-                                <option value="Junio">Junio</option>
-                                <option value="Julio">Julio</option>
-                                <option value="Agosto">Agosto</option>
-                                <option value="Septiembre">Septiembre</option>
-                                <option value="Octubre">Octubre</option>
-                                <option value="Noviembre">Noviembre</option>
-                                <option value="Diciembre">Diciembre</option>
-                            </select>
-                            <input type="number" name="ano_nacimiento" placeholder="Año" class="form__input" required min="1900" max="2024">
-                        </div>
+                        <label for="fecha_nacimiento" class="form__label">Fecha de Nacimiento</label>
+                        <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" class="form__input" required>
                     </div>
 
                     <div class="form__group">
