@@ -72,23 +72,27 @@ Para realizar cambios en el contenido o diseño del sitio, sigue estos pasos:
 
 ## Configuración de GitHub Actions
 
-El archivo `.github/workflows/deploy-to-cloudrun.yaml` contiene la configuración para el despliegue automático. Para que funcione correctamente, necesitas configurar los siguientes secretos en tu repositorio de GitHub:
+El archivo `.github/workflows/deploy-to-cloudrun.yaml` contiene la configuración para el despliegue automático. Para que funcione correctamente, el workflow utiliza **Workload Identity Federation** para autenticarse de forma segura con Google Cloud.
+
+Necesitas configurar los siguientes secretos en tu repositorio de GitHub:
 
 | Secreto | Descripción | Ejemplo |
 | :--- | :--- | :--- |
 | `GCP_PROJECT_ID` | El ID de tu proyecto de Google Cloud. | `sociedad-del-silencio-322` |
 | `GCP_REGION` | La región donde se desplegarán los recursos. | `us-central1` |
-| `GCP_SA_KEY` | El JSON de la clave de una cuenta de servicio de GCP con los permisos necesarios. | `{ "type": "service_account", ... }` |
 | `ARTIFACT_REGISTRY_REPO` | El nombre de tu repositorio en Artifact Registry. | `sociedaddelsilencio-repo` |
+| `GCP_WORKLOAD_IDENTITY_PROVIDER` | El identificador del proveedor de Workload Identity. | `projects/123.../providers/my-provider` |
+| `GCP_SERVICE_ACCOUNT` | El email de la cuenta de servicio de GCP que usará GitHub Actions. | `github-actions@...gserviceaccount.com` |
 
 ### Permisos de la Cuenta de Servicio
 
-La cuenta de servicio (`GCP_SA_KEY`) necesita los siguientes roles de IAM en tu proyecto de GCP:
+La cuenta de servicio (`GCP_SERVICE_ACCOUNT`) necesita los siguientes roles de IAM en tu proyecto de GCP:
 
 *   **Cloud Build Editor**: Para poder construir imágenes.
 *   **Artifact Registry Writer**: Para poder subir imágenes al registro.
 *   **Cloud Run Developer**: Para poder desplegar nuevas revisiones del servicio.
 *   **Service Account User**: Para permitir que Cloud Build actúe en nombre de la cuenta de servicio.
+*   **Workload Identity User**: Para permitir que GitHub Actions se autentique y obtenga un token de acceso para esta cuenta de servicio.
 
 ## Despliegue en GCP (Paso a Paso)
 
