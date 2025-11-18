@@ -1,27 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    // --- Cargar Header y Footer ---
-    const loadHTML = (url, elementId) => {
-        fetch(url)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Error al cargar ${url}: ${response.status} ${response.statusText}`);
-                }
-                return response.text();
-            })
-            .then(data => {
-                const element = document.getElementById(elementId);
-                if (element) {
-                    element.innerHTML = data;
-                    // Si estamos cargando el header, reinicializamos el menú hamburguesa
-                    if (elementId === 'header-placeholder') {
-                        initializeHamburgerMenu();
-                    }
-                }
-            })
-            .catch(error => console.error(error));
-    };
-
     // --- Menú de Navegación Móvil (Hamburguesa) ---
     const initializeHamburgerMenu = () => {
         const hamburger = document.querySelector('.header__hamburger');
@@ -45,14 +23,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // Solo cargar header y footer en las páginas principales, no en los propios parciales
-    if (document.getElementById('header-placeholder')) {
-        loadHTML('_header.html', 'header-placeholder');
-    }
-    if (document.getElementById('footer-placeholder')) {
-        loadHTML('_footer.html', 'footer-placeholder');
-    }
-
+    // Inicializar el menú de hamburguesa
+    initializeHamburgerMenu();
 
     // --- Animación de aparición de secciones al hacer scroll ---
     const sections = document.querySelectorAll('.section');
