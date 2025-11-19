@@ -3,15 +3,15 @@ name: Build and Deploy to Cloud Run
 on:
   push:
     branches:
-      - main # O la rama que uses para tu código principal
+      - main
 
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   REGION: ${{ secrets.GCP_REGION }}
-  SERVICE_NAME: www-ss322 # Nombre de tu servicio en Cloud Run
-  ARTIFACT_REGISTRY_REPO: ${{ secrets.ARTIFACT_REGISTRY_REPO }} # Nombre de tu repositorio de Artifact Registry
-  GCP_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }} # Nuevo secreto
-  GCP_SERVICE_ACCOUNT: ${{ secrets.GCP_SERVICE_ACCOUNT }} # Nuevo secreto
+  SERVICE_NAME: wwwss322
+  ARTIFACT_REGISTRY_REPO: ${{ secrets.ARTIFACT_REGISTRY_REPO }}
+  GCP_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+  GCP_SERVICE_ACCOUNT: ${{ secrets.GCP_SERVICE_ACCOUNT }}
 
 jobs:
   deploy:
@@ -24,26 +24,30 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      # CORRECCIÓN 1: Agregamos 'project_id' explícitamente
       - name: Authenticate to Google Cloud via Workload Identity Federation
         uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: ${{ env.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ env.GCP_SERVICE_ACCOUNT }}
+          project_id: ${{ env.PROJECT_ID }} # <--- ESTO SOLUCIONA EL ERROR DE PROYECTO
 
+      # CORRECCIÓN 2: Cloud Build
+      # Al haber definido project_id arriba, gcloud ya sabe a dónde mandar el submit
       - name: Build and Push image with Cloud Build
         run: |
           gcloud builds submit --tag ${REGION}-docker.pkg.dev/${PROJECT_ID}/${ARTIFACT_REGISTRY_REPO}/${SERVICE_NAME}:${{ github.sha }} .
 
+      # CORRECCIÓN 3: Limpieza de sintaxis (Sin comentarios destructivos)
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy ${SERVICE_NAME} \
             --image ${REGION}-docker.pkg.dev/${PROJECT_ID}/${ARTIFACT_REGISTRY_REPO}/${SERVICE_NAME}:${{ github.sha }} \
             --region ${REGION} \
             --platform managed \
-            --allow-unauthenticated # O --no-allow-unauthenticated si necesitas autenticación \
-            --port 80 # O el puerto que tu aplicación escucha, si es diferente de 8080 \
-            --cpu 1 # Configurar CPUs \
-            --memory 512Mi # Configurar memoria
-            # --set-env-vars KEY=VALUE # Para variables de entorno
-            --max-instances 3 # Limitar instancias
-            --min-instances 0 # Minimo de instancias
+            --allow-unauthenticated \
+            --port 80 \
+            --cpu 1 \
+            --memory 512Mi \
+            --max-instances 3 \
+            --min-instances 0
