@@ -36,7 +36,9 @@ jobs:
       # Al haber definido project_id arriba, gcloud ya sabe a dónde mandar el submit
       - name: Build and Push image with Cloud Build
         run: |
-          gcloud builds submit --tag ${REGION}-docker.pkg.dev/${PROJECT_ID}/${ARTIFACT_REGISTRY_REPO}/${SERVICE_NAME}:${{ github.sha }} .
+          gcloud builds submit \
+            --project ${{ env.PROJECT_ID }} \
+            --tag ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REGISTRY_REPO }}/${{ env.SERVICE_NAME }}:${{ github.sha }} .
 
       # CORRECCIÓN 3: Limpieza de sintaxis (Sin comentarios destructivos)
       - name: Deploy to Cloud Run
