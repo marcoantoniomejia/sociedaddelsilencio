@@ -1,0 +1,9 @@
+# Indica a todos los crawlers (user-agents) que sigan las siguientes reglas.
+User-agent: *
+
+# Prohíbe el acceso al panel de administración de Ghost para evitar que sea indexado.
+Disallow: /ghost/
+
+# Descomentar la siguiente línea una vez que el sitemap de Ghost esté activo.
+# Especifica la ubicación del mapa del sitio (sitemap) para facilitar la indexación.
+# Sitemap: https://www.sociedaddelsilencio322.org/sitemap.xml
