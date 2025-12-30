@@ -1,9 +1,26 @@
-# Indica a todos los crawlers (user-agents) que sigan las siguientes reglas.
+# robots.txt para Sociedad del Silencio 322
+# Actualizado: 2025-12-30
+
+# Reglas para todos los crawlers
 User-agent: *
 
-# Prohíbe el acceso al panel de administración de Ghost para evitar que sea indexado.
-Disallow: /ghost/
+# Permitir acceso a todo el contenido público
+Allow: /
 
-# Descomentar la siguiente línea una vez que el sitemap de Ghost esté activo.
-# Especifica la ubicación del mapa del sitio (sitemap) para facilitar la indexación.
-# Sitemap: https://www.sociedaddelsilencio322.org/sitemap.xml
+# Bloquear acceso a directorios privados (si existen en el futuro)
+# Disallow: /admin/
+# Disallow: /private/
+
+# Bloquear acceso a archivos de sistema
+Disallow: /*.json$
+Disallow: /*.xml$ 
+Disallow: /assets/
+
+# Permitir explícitamente el sitemap
+Allow: /sitemap.xml
+
+# Ubicación del sitemap
+Sitemap: https://www.sociedaddelsilencio322.org/sitemap.xml
+
+# Crawl-delay para bots agresivos (opcional)
+# Crawl-delay: 1
