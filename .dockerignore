@@ -4,3 +4,9 @@ README.md
 .git
 .github
 GEMINI.md
+
+# Archivos de documentación y progreso (no necesarios en producción)
+CHANGELOG-SEMANA1.md
+DIA4-SEO-OPTIMIZACION.md
+DIA5-SITEMAP-ROBOTS.md
+*.md
