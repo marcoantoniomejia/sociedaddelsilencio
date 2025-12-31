@@ -26,6 +26,24 @@ document.addEventListener('DOMContentLoaded', function() {
     // Inicializar el menú de hamburguesa
     initializeHamburgerMenu();
 
+    // --- Header Glassmorphism con Scroll ---
+    const initializeScrollHeader = () => {
+        const header = document.querySelector('.header');
+        
+        if (header) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+        }
+    };
+
+    // Inicializar scroll header
+    initializeScrollHeader();
+
     // --- Animación de aparición de secciones al hacer scroll ---
     const sections = document.querySelectorAll('.section');
 
