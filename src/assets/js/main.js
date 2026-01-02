@@ -44,6 +44,133 @@ document.addEventListener('DOMContentLoaded', function() {
     // Inicializar scroll header
     initializeScrollHeader();
 
+    // --- Efecto Parallax en Hero (Día 36) ---
+    const initializeParallaxEffect = () => {
+        const heroBg = document.querySelector('.hero__bg');
+        if (!heroBg) return;
+
+        let ticking = false;
+
+        const updateParallax = () => {
+            const scrollY = window.scrollY;
+            // Solo aplicar si estamos cerca del top (optimización)
+            if (scrollY < window.innerHeight) {
+                const speed = 0.5; // La imagen se mueve a la mitad de velocidad
+                const yPos = scrollY * speed;
+                // Usar translate3d para aceleración por hardware
+                heroBg.style.transform = `translate3d(0, ${yPos}px, 0)`;
+            }
+            ticking = false;
+        };
+
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(updateParallax);
+                ticking = true;
+            }
+        }, { passive: true });
+    };
+
+    initializeParallaxEffect();
+
+    // --- Partículas Animadas (Día 37 & 38 Optimización) ---
+    const initializeParticles = () => {
+        const canvas = document.getElementById('hero-particles');
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d');
+        let particlesArray;
+        let isMobile = window.innerWidth < 768; // Detectar móvil
+
+        // Ajustar tamaño del canvas inicial
+        const resizeCanvas = () => {
+            const parent = canvas.parentElement;
+            if (parent) {
+               canvas.width = parent.offsetWidth;
+               canvas.height = parent.offsetHeight;
+            } else {
+               canvas.width = window.innerWidth;
+               canvas.height = window.innerHeight;
+            }
+            isMobile = window.innerWidth < 768; // Actualizar en resize
+        };
+        
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5; 
+                this.speedX = Math.random() * 0.6 - 0.3; 
+                this.speedY = Math.random() * 0.6 - 0.3;
+                this.color = 'rgba(244, 208, 63, 0.4)'; 
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x > canvas.width || this.x < 0) this.speedX = -this.speedX;
+                if (this.y > canvas.height || this.y < 0) this.speedY = -this.speedY;
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        const init = () => {
+            particlesArray = [];
+            // Día 38: Menos partículas en móvil (divisor más alto = menos densidad)
+            const densityDivisor = isMobile ? 18000 : 9000;
+            const numberOfParticles = (canvas.width * canvas.height) / densityDivisor;
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+        };
+
+        const animate = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+                
+                // Día 38: Desactivar líneas costosas en móvil para ahorrar batería
+                if (!isMobile) {
+                    for (let j = i; j < particlesArray.length; j++) {
+                        const dx = particlesArray[i].x - particlesArray[j].x;
+                        const dy = particlesArray[i].y - particlesArray[j].y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+
+                        if (distance < 100) {
+                            ctx.beginPath();
+                            ctx.strokeStyle = `rgba(244, 208, 63, ${0.15 - distance/1000})`; 
+                            ctx.lineWidth = 0.5;
+                            ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
+                            ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        };
+
+        init();
+        animate();
+
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            init(); // Reiniciar partículas al redimensionar
+        });
+    };
+
+    initializeParticles();
+
     // --- Animaciones de Entrada Mejoradas ---
     const initializeScrollAnimations = () => {
         // Seleccionar elementos con animación
