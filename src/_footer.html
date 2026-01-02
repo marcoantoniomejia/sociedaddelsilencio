@@ -1,14 +1,122 @@
 <!-- Footer Principal -->
     <footer class="main-footer">
         <div class="container">
-            <p>&copy; 2025 R.·.L.·.S.·. Sociedad del Silencio #322. Todos los derechos reservados.</p>
-            <p>El contenido de este sitio tiene fines informativos y no revela secretos masónicos.</p>
-            <div class="social-links">
-                <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-                <a href="#" aria-label="X"><i class="fab fa-x-twitter"></i></a>
-                <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+            <!-- Newsletter Signup -->
+            <div class="newsletter-section">
+                <div class="newsletter-content">
+                    <div class="newsletter-text">
+                        <h3 class="newsletter-title">
+                            <i class="fas fa-envelope-open-text"></i>
+                            Mantente Informado
+                        </h3>
+                        <p class="newsletter-description">
+                            Recibe contenido exclusivo sobre masonería, filosofía y eventos de la logia directamente en tu correo.
+                        </p>
+                    </div>
+                    <form class="newsletter-form" id="newsletterForm">
+                        <div class="newsletter-input-wrapper">
+                            <i class="fas fa-envelope newsletter-icon"></i>
+                            <input 
+                                type="email" 
+                                id="newsletter-email" 
+                                name="email" 
+                                class="newsletter-input" 
+                                placeholder="tu@correo.com"
+                                required
+                                aria-label="Correo electrónico para newsletter"
+                            >
+                            <button type="submit" class="newsletter-button">
+                                <span class="newsletter-button-text">Suscribirse</span>
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                        <p class="newsletter-privacy">
+                            <i class="fas fa-lock"></i>
+                            No compartimos tu información. Puedes cancelar tu suscripción en cualquier momento.
+                        </p>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Footer Grid -->
+            <div class="footer-grid">
+                <!-- Columna 1: Sobre Nosotros -->
+                <div class="footer-column">
+                    <h3 class="footer-title">Sociedad del Silencio 322</h3>
+                    <p class="footer-description">
+                        Respetable Logia Simbólica jurisdiccionada a la Muy Respetable Gran Logia Valle de México. 
+                        Formando líderes éticos desde 2007.
+                    </p>
+                    <div class="footer-contact">
+                        <p><i class="fas fa-map-marker-alt"></i> Sadi Carnot 75, CDMX</p>
+                        <p><i class="fas fa-clock"></i> Miércoles 8:00 PM</p>
+                    </div>
+                </div>
+
+                <!-- Columna 2: Enlaces Rápidos -->
+                <div class="footer-column">
+                    <h4 class="footer-subtitle">Enlaces Rápidos</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Inicio</a></li>
+                        <li><a href="quienes-somos.html"><i class="fas fa-chevron-right"></i> ¿Quiénes Somos?</a></li>
+                        <li><a href="principios.html"><i class="fas fa-chevron-right"></i> Principios</a></li>
+                        <li><a href="filantropia.html"><i class="fas fa-chevron-right"></i> Filantropía</a></li>
+                        <li><a href="blog.html"><i class="fas fa-chevron-right"></i> Blog</a></li>
+                        <li><a href="contacto-candidatos.html"><i class="fas fa-chevron-right"></i> Contacto</a></li>
+                    </ul>
+                </div>
+
+                <!-- Columna 3: Recursos -->
+                <div class="footer-column">
+                    <h4 class="footer-subtitle">Recursos</h4>
+                    <ul class="footer-links">
+                        <li><a href="#faq"><i class="fas fa-chevron-right"></i> Preguntas Frecuentes</a></li>
+                        <li><a href="quienes-somos.html#historia"><i class="fas fa-chevron-right"></i> Nuestra Historia</a></li>
+                        <li><a href="principios.html#libertad"><i class="fas fa-chevron-right"></i> Libertad</a></li>
+                        <li><a href="principios.html#igualdad"><i class="fas fa-chevron-right"></i> Igualdad</a></li>
+                        <li><a href="principios.html#fraternidad"><i class="fas fa-chevron-right"></i> Fraternidad</a></li>
+                    </ul>
+                </div>
+
+                <!-- Columna 4: Redes Sociales -->
+                <div class="footer-column">
+                    <h4 class="footer-subtitle">Síguenos</h4>
+                    <p class="footer-social-text">Mantente conectado con nuestra comunidad</p>
+                    <div class="footer-social-links">
+                        <a href="#" aria-label="YouTube" class="social-icon">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" aria-label="Instagram" class="social-icon">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" aria-label="Facebook" class="social-icon">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" aria-label="X (Twitter)" class="social-icon">
+                            <i class="fab fa-x-twitter"></i>
+                        </a>
+                        <a href="#" aria-label="TikTok" class="social-icon">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p class="footer-copyright">
+                        &copy; 2007-2026 R∴L∴S∴ Sociedad del Silencio #322. Todos los derechos reservados.
+                    </p>
+                    <p class="footer-disclaimer">
+                        El contenido de este sitio tiene fines informativos y no revela secretos masónicos.
+                    </p>
+                    <p class="footer-legal">
+                        <a href="#privacidad">Política de Privacidad</a> | 
+                        <a href="#terminos">Términos de Uso</a> | 
+                        <a href="sitemap.xml">Mapa del Sitio</a>
+                    </p>
+                </div>
             </div>
         </div>
     </footer>
