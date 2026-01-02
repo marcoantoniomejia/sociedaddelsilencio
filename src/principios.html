@@ -50,9 +50,13 @@
     <link rel="icon" href="assets/images/logoSS322-new01.png" type="image/png">
 
     <!-- Google Fonts -->
+    <!-- Google Fonts (Optimizado) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap&subset=latin" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap&subset=latin" rel="stylesheet">
+    </noscript>
 
     <!-- CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
@@ -82,19 +86,19 @@
     <main id="main-content">
         <section class="section">
             <div class="container">
-                <h1>Nuestros Principios</h1>
-                <div class="principios__grid">
-                    <article class="principios__card">
+                <h1 class="animate-on-scroll animate-fadeInUp">Nuestros Principios</h1>
+                <div class="grid grid-3 gap-md">
+                    <article class="principios__card animate-on-scroll animate-scaleIn stagger-1">
                         <h3>Libertad</h3>
-                        <p style="text-align: justify;">Defendemos la libertad absoluta de conciencia y el derecho de cada individuo a buscar la verdad sin dogmas ni ataduras.</p>
+                        <p class="text-justify">Defendemos la libertad absoluta de conciencia y el derecho de cada individuo a buscar la verdad sin dogmas ni ataduras.</p>
                     </article>
-                    <article class="principios__card">
+                    <article class="principios__card animate-on-scroll animate-scaleIn stagger-2">
                         <h3>Igualdad</h3>
-                        <p style="text-align: justify;">Entre nosotros, no hay distinción de razas, credos o posiciones sociales. Nos reunimos como iguales, unidos por un lazo fraternal.</p>
+                        <p class="text-justify">Entre nosotros, no hay distinción de razas, credos o posiciones sociales. Nos reunimos como iguales, unidos por un lazo fraternal.</p>
                     </article>
-                    <article class="principios__card">
+                    <article class="principios__card animate-on-scroll animate-scaleIn stagger-3">
                         <h3>Fraternidad</h3>
-                        <p style="text-align: justify;">Es el cimiento de nuestra Orden. Practicamos la tolerancia, la ayuda mutua y la filantropía como pilares de una sociedad más justa.</p>
+                        <p class="text-justify">Es el cimiento de nuestra Orden. Practicamos la tolerancia, la ayuda mutua y la filantropía como pilares de una sociedad más justa.</p>
                     </article>
                 </div>
             </div>

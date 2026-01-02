@@ -1,62 +1,73 @@
 /* --- Variables y Estilos Base --- */
 :root {
-  /* Colores Base */
-  --color-primario: #0a0a0a; /* Negro profundo */
-  --color-secundario: #1a1a1a; /* Gris oscuro mejorado */
-  --color-terciario: #2a2a2a; /* Gris medio */
+  /* --- SISTEMA DE DISEÑO --- */
+
+  /* 1. Paleta de Colores Base */
+  --color-primario: #0a0a0a; /* Negro profundo (Fondo principal) */
+  --color-secundario: #1a1a1a; /* Gris oscuro (Tarjetas, Footer) */
+  --color-terciario: #2a2a2a; /* Elementos UI */
   
-  /* Colores de Acento */
-  --color-acento: #f4d03f; /* Oro brillante */
-  --color-acento-hover: #c9a227; /* Oro oscuro para hover */
-  --color-acento-secundario: #1e3a5f; /* Azul profundo para confianza */
+  /* 2. Colores de Identidad y Acento */
+  --color-acento: #f4d03f; /* Oro principal */
+  --color-acento-hover: #c9a227; /* Oro oscuro (Estados hover) */
+  --color-acento-suave: rgba(244, 208, 63, 0.15); /* Oro transparente (Fondos sutiles) */
+  --color-acento-secundario: #1e3a5f; /* Azul profundo (Confianza/Profesionalismo) */
   
-  /* Colores de Texto */
-  --color-texto-principal: #e8e8e8; /* Texto claro mejorado */
-  --color-texto-secundario: #b0b0b0; /* Texto secundario con mejor contraste */
-  --color-texto-tenue: #808080; /* Texto muy tenue */
+  /* 3. Tipografía y Textos */
+  --color-texto-principal: #ffffff; /* Blanco puro (Legibilidad máxima) */
+  --color-texto-secundario: #b0b0b0; /* Gris claro (Textos secundarios) */
+  --color-texto-tenue: #808080; /* Gris medio (Meta info) */
+  --color-texto-inverso: #0a0a0a; /* Texto sobre fondos claros/dorados */
+
+  --font-principal: "Inter", "Helvetica Neue", sans-serif;
+  --font-secundaria: "Playfair Display", "Georgia", serif; /* Títulos elegantes */
   
-  /* Gradientes */
+  /* 4. Gradientes */
   --gradient-primary: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
   --gradient-secondary: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
-  --gradient-gold: linear-gradient(135deg, #f4d03f 0%, #c9a227 100%);
-  --gradient-overlay: linear-gradient(rgba(10, 10, 10, 0.7), rgba(10, 10, 10, 0.9));
+  --gradient-gold: linear-gradient(135deg, #f4d03f 0%, #c9a227 100%); /* Botones/Acentos */
+  --gradient-gold-text: linear-gradient(90deg, #f4d03f, #c9a227); /* Texto dorado */
+  --gradient-overlay: linear-gradient(rgba(10, 10, 10, 0.8), rgba(10, 10, 10, 0.95));
   
-  /* Sombras Premium */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.25);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.35);
-  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.45);
+  /* 5. Espaciado (Nuevo Sistema) */
+  --space-xs: 0.5rem;  /* 8px */
+  --space-sm: 1rem;    /* 16px */
+  --space-md: 2rem;    /* 32px */
+  --space-lg: 4rem;    /* 64px */
+  --space-xl: 8rem;    /* 128px */
+  --container-width: 1200px;
   
-  /* Sombras con Acento Dorado */
-  --shadow-gold-sm: 0 2px 8px rgba(244, 208, 63, 0.15);
-  --shadow-gold-md: 0 4px 16px rgba(244, 208, 63, 0.25);
-  --shadow-gold-lg: 0 8px 32px rgba(244, 208, 63, 0.35);
-  
-  /* Sombras Combinadas (Negro + Dorado) */
-  --shadow-premium-sm: 
-    0 2px 8px rgba(0, 0, 0, 0.2),
-    0 0 12px rgba(244, 208, 63, 0.1);
-  --shadow-premium-md: 
-    0 4px 16px rgba(0, 0, 0, 0.3),
-    0 0 20px rgba(244, 208, 63, 0.15);
-  --shadow-premium-lg: 
-    0 8px 32px rgba(0, 0, 0, 0.4),
-    0 0 30px rgba(244, 208, 63, 0.2);
-  
-  /* Bordes */
+  /* 6. Radios de Borde (Nuevo Sistema) */
+  --border-radius-sm: 4px;   /* Botones pequeños, tags */
+  --border-radius-md: 8px;   /* Tarjetas, inputs */
+  --border-radius-lg: 16px;  /* Modales, secciones destacadas */
+  --border-radius-pill: 50px; /* Botones redondos */
+
+  /* 7. Bordes */
   --border-width: 1px;
   --border-width-thick: 2px;
-  --border-radius-sm: 4px;
-  --border-radius-md: 8px;
-  --border-radius-lg: 12px;
-  
-  /* Bordes con Gradiente */
   --border-gold: 1px solid rgba(244, 208, 63, 0.3);
   --border-gold-bright: 2px solid rgba(244, 208, 63, 0.5);
+
+  /* 8. Sombras (Elevation System) */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
   
-  /* Tipografía */
-  --font-principal: "Inter", "Helvetica Neue", sans-serif;
-  --font-secundaria: "Playfair Display", "Georgia", serif;
+  --shadow-premium-sm: 0 2px 8px rgba(0, 0, 0, 0.2), 0 0 12px rgba(244, 208, 63, 0.1);
+  --shadow-premium-md: 0 4px 16px rgba(0, 0, 0, 0.3), 0 0 20px rgba(244, 208, 63, 0.15);
+  
+  /* 9. Transiciones (Animation System) */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-smooth: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* 10. Z-Index Layers */
+  --z-negative: -1;
+  --z-normal: 1;
+  --z-overlay: 100;
+  --z-modal: 1000;
+  --z-tooltip: 1500;
 }
 
 *,
@@ -112,6 +123,14 @@ p {
 a {
   color: var(--color-acento);
   text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+/* Enlaces de texto generales */
+p a:hover {
+  color: var(--color-acento-hover);
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 /* --- Accesibilidad --- */
@@ -305,6 +324,31 @@ select:focus-visible {
   justify-content: center;
   text-align: center;
   min-height: 100vh;
+  /* El background se ha movido a .hero__overlay y .hero__bg para Parallax */
+  padding: 0 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background para Parallax */
+.hero__bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 120%; /* Altura extra para permitir el movimiento parallax */
+  background: url("../images/logoSS322-new01.png") no-repeat center center/cover;
+  z-index: 0;
+  will-change: transform;
+}
+
+/* Overlay con Gradientes */
+.hero__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: 
     linear-gradient(
       135deg,
@@ -318,11 +362,19 @@ select:focus-visible {
       ellipse at center,
       rgba(244, 208, 63, 0.15) 0%,
       transparent 70%
-    ),
-    url("../images/logoSS322-new01.png") no-repeat center center/cover;
-  padding: 0 1rem;
-  position: relative;
-  overflow: hidden;
+    );
+  z-index: 1;
+}
+
+/* Partículas Animadas */
+#hero-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
 }
 
 /* Efecto de brillo sutil en el hero */
@@ -357,7 +409,7 @@ select:focus-visible {
   max-width: 900px;
   padding: 2rem 1rem;
   position: relative;
-  z-index: 1;
+  z-index: 3;
   animation: fadeInUp 1.2s ease-out;
 }
 
@@ -647,12 +699,44 @@ select:focus-visible {
 
 .blog__post-preview,
 .blog__post-full {
-  background-color: var(--color-secundario);
+  background: var(--gradient-secondary); /* Cambio a gradiente */
   padding: 2rem;
+  border-left: 4px solid var(--color-acento);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-premium-sm);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.blog__post-preview:hover,
+.blog__post-full:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-premium-md);
+  border-left-color: var(--color-acento-hover);
+}
+
+/* Shimmer effect para blog cards */
+.blog__post-preview::before,
+.blog__post-full::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(244, 208, 63, 0.05), transparent);
+  transition: left 0.5s;
+  pointer-events: none;
+}
+
+.blog__post-preview:hover::before,
+.blog__post-full:hover::before {
+  left: 100%;
 }
 
 .blog__post-full {
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 
 .blog__post-meta {
@@ -1272,7 +1356,14 @@ img.lazy.loaded {
   overflow: hidden;
 }
 
-/* Efecto shimmer */
+.stat-item:hover {
+  transform: translateY(-5px) !important;
+  box-shadow: var(--shadow-premium-md);
+  border-left-color: var(--color-acento-hover);
+  border-left-width: 6px;
+}
+
+/* Shimmer effect estandarizado */
 .stat-item::before {
   content: '';
   position: absolute;
@@ -1280,46 +1371,13 @@ img.lazy.loaded {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(244, 208, 63, 0.1), transparent);
+  background: linear-gradient(90deg, transparent, rgba(244, 208, 63, 0.05), transparent);
   transition: left 0.5s;
-}
-
-/* Borde con gradiente en hover */
-.stat-item::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border-radius: var(--border-radius-md);
-  padding: 2px;
-  background: var(--gradient-gold);
-  -webkit-mask: 
-    linear-gradient(#fff 0 0) content-box, 
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask: 
-    linear-gradient(#fff 0 0) content-box, 
-    linear-gradient(#fff 0 0);
-  mask-composite: exclude;
-  opacity: 0;
-  transition: opacity 0.3s ease;
   pointer-events: none;
 }
 
 .stat-item:hover::before {
   left: 100%;
-}
-
-.stat-item:hover::after {
-  opacity: 1;
-}
-
-.stat-item:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-premium-md);
-  border-left-width: 6px;
 }
 
 .stat-number {
@@ -2078,3 +2136,134 @@ img.lazy.loaded {
     font-size: 0.85rem;
   }
 }
+
+/* --- SISTEMA DE GRID (Día 32) --- */
+
+/* Utilidad Base de Grid */
+.grid {
+  display: grid;
+  width: 100%;
+}
+
+/* Columnas Predefinidas (Desktop First: se ajustan en mobile) */
+.grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.grid-auto {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+/* Gaps usando Sistema de Espaciado */
+.gap-sm { gap: var(--space-sm); }
+.gap-md { gap: var(--space-md); }
+.gap-lg { gap: var(--space-lg); }
+
+/* Alineación */
+.items-center { align-items: center; }
+.items-start { align-items: start; }
+.items-end { align-items: end; }
+
+/* Grid Responsive */
+@media (max-width: 1024px) {
+  .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .grid-2,
+  .grid-3 {
+    grid-template-columns: 1fr; /* Stack en móvil */
+  }
+  
+  .grid-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Utilidad para elementos que ocupan todo el ancho */
+.col-span-full {
+  grid-column: 1 / -1;
+}
+
+.col-span-2 {
+  grid-column: span 2;
+}
+
+
+/* --- UTILIDADES CSS (Día 33) --- */
+
+/* 1. Márgenes (Margin) */
+.m-0 { margin: 0; }
+.m-auto { margin: auto; }
+
+.mt-sm { margin-top: var(--space-sm); }
+.mt-md { margin-top: var(--space-md); }
+.mt-lg { margin-top: var(--space-lg); }
+
+.mb-sm { margin-bottom: var(--space-sm); }
+.mb-md { margin-bottom: var(--space-md); }
+.mb-lg { margin-bottom: var(--space-lg); }
+
+.ml-sm { margin-left: var(--space-sm); }
+.ml-md { margin-left: var(--space-md); }
+
+.mr-sm { margin-right: var(--space-sm); }
+.mr-md { margin-right: var(--space-md); }
+
+/* MX (Horizontal) y MY (Vertical) */
+.mx-auto { margin-left: auto; margin-right: auto; }
+.my-md { margin-top: var(--space-md); margin-bottom: var(--space-md); }
+.my-lg { margin-top: var(--space-lg); margin-bottom: var(--space-lg); }
+
+/* 2. Relleno (Padding) */
+.p-0 { padding: 0; }
+.p-sm { padding: var(--space-sm); }
+.p-md { padding: var(--space-md); }
+.p-lg { padding: var(--space-lg); }
+
+.pt-md { padding-top: var(--space-md); }
+.pb-md { padding-bottom: var(--space-md); }
+.py-md { padding-top: var(--space-md); padding-bottom: var(--space-md); }
+.py-lg { padding-top: var(--space-lg); padding-bottom: var(--space-lg); }
+
+/* 3. Texto (Typography Utils) */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+.text-justify { text-align: justify; }
+
+.text-uppercase { text-transform: uppercase; }
+.text-capitalize { text-transform: capitalize; }
+.text-bold { font-weight: 700; }
+.text-italic { font-style: italic; }
+
+/* Colores de texto directos */
+.text-primary { color: var(--color-texto-principal); }
+.text-secondary { color: var(--color-texto-secundario); }
+.text-accent { color: var(--color-acento); }
+
+/* 4. Display y Visibilidad */
+.d-block { display: block; }
+.d-inline-block { display: inline-block; }
+.d-flex { display: flex; }
+.d-none { display: none; }
+
+/* Flex Utils (Complemento al Grid) */
+.flex-column { flex-direction: column; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.flex-wrap { flex-wrap: wrap; }
+
+/* 5. Ancho y Alto */
+.w-100 { width: 100%; }
+.h-100 { height: 100%; }

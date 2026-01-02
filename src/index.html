@@ -87,47 +87,7 @@
       }
     </script>
 
-    <!-- JSON-LD: FAQPage Schema -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "¿Cuáles son los requisitos para ser masón?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Para ser masón se requiere ser hombre libre, mayor de 21 años, de buenas costumbres y reputación intachable. Debe tener sincero interés en el desarrollo personal, ético y filosófico, así como compromiso con los valores de libertad, igualdad y fraternidad."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "¿Cuándo se reúne la Logia Sociedad del Silencio 322?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "La Logia Sociedad del Silencio 322 se reúne todos los miércoles a las 8:00 PM en Sadi Carnot 75, Colonia San Rafael, Ciudad de México."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "¿Qué es la masonería?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "La masonería es una institución filosófica, filantrópica y progresista que busca el perfeccionamiento moral e intelectual del ser humano. Se basa en los principios de Libertad, Igualdad y Fraternidad, promoviendo el desarrollo del carácter y el servicio a la humanidad."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "¿Cuántos años tiene la Logia Sociedad del Silencio 322?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "La Respetable Logia Simbólica Sociedad del Silencio 322 fue fundada en 2007, por lo que cuenta con 18 años de tradición masónica en la Ciudad de México."
-            }
-          }
-        ]
-      }
-    </script>
+
 
     <!-- JSON-LD: Event Schema (Reuniones Semanales) -->
     <script type="application/ld+json">
@@ -286,35 +246,38 @@
     <main id="main-content">
       <!-- Sección Hero -->
       <section class="hero">
+        <div class="hero__bg"></div>
+        <div class="hero__overlay"></div>
+        <canvas id="hero-particles"></canvas>
         <div class="hero__content">
           <h1 class="hero__title">
             Masonería en la Ciudad de México: Liderazgo y Fraternidad
           </h1>
-          <p class="hero__text" style="text-align: justify">
-            Un viaje de autodescubrimiento, fraternidad y servicio, anclado en
-            los antiguos misterios de la francmasonería.
-          </p>
+           <p class="hero__text text-justify animate-on-scroll animate-fadeInUp stagger-1">
+             Un viaje de autodescubrimiento, fraternidad y servicio, anclado en
+             los antiguos misterios de la francmasonería.
+           </p>
         </div>
       </section>
 
       <!-- Sección: Valores Masónicos en la Esfera Pública -->
       <section id="valores" class="section">
         <div class="container">
-          <h2>Valores Masónicos en la Esfera Pública: Ética y Liderazgo en CDMX</h2>
-          <p style="text-align: justify">
-            La <strong>Respetable Logia Simbólica "Sociedad del Silencio #322"</strong> es una 
-            <strong>logia masónica en CDMX</strong> con 18 años de trayectoria formando 
-            <em>hombres libres y de buenas costumbres</em>. Como <strong>taller masónico regular</strong>, 
-            nos dedicamos al estudio de la filosofía, la ciencia y el arte, promoviendo el 
-            <strong>desarrollo personal</strong> y el <strong>liderazgo ético</strong> entre nuestros miembros.
-          </p>
-          <p style="text-align: justify">
-            Operamos bajo la jurisdicción de la <strong>Muy Respetable Gran Logia Valle de México</strong> 
-            de Antiguos, Libres y Aceptados Masones, la organización masónica más grande de habla hispana 
-            con más de 400 logias. Esta afiliación garantiza nuestra adhesión a los 
-            <em>principios universales de la Orden Masónica</em> y nos conecta con una red de 
-            profesionistas de alto nivel comprometidos con la excelencia y el servicio a la humanidad.
-          </p>
+           <h2 class="animate-on-scroll animate-fadeInUp">Valores Masónicos en la Esfera Pública: Ética y Liderazgo en CDMX</h2>
+           <p class="text-justify animate-on-scroll animate-fadeInUp stagger-1">
+             La <strong>Respetable Logia Simbólica "Sociedad del Silencio #322"</strong> es una 
+             <strong>logia masónica en CDMX</strong> con 18 años de trayectoria formando 
+             <em>hombres libres y de buenas costumbres</em>. Como <strong>taller masónico regular</strong>, 
+             nos dedicamos al estudio de la filosofía, la ciencia y el arte, promoviendo el 
+             <strong>desarrollo personal</strong> y el <strong>liderazgo ético</strong> entre nuestros miembros.
+           </p>
+           <p class="text-justify animate-on-scroll animate-fadeInUp stagger-2">
+             Operamos bajo la jurisdicción de la <strong>Muy Respetable Gran Logia Valle de México</strong> 
+             de Antiguos, Libres y Aceptados Masones, la organización masónica más grande de habla hispana 
+             con más de 400 logias. Esta afiliación garantiza nuestra adhesión a los 
+             <em>principios universales de la Orden Masónica</em> y nos conecta con una red de 
+             profesionistas de alto nivel comprometidos con la excelencia y el servicio a la humanidad.
+           </p>
           <div class="centered-btn">
             <a href="quienes-somos.html" class="btn btn--primary">
               <i class="fas fa-users"></i>
@@ -367,10 +330,10 @@
       <section id="liderazgo" class="section section--light">
         <div class="container">
           <h2>Liderazgo Masónico a través de la Filosofía: Libertad, Igualdad y Fraternidad</h2>
-          <div class="principios__grid">
+          <div class="grid grid-3 gap-md">
             <article class="principios__card">
               <h3><i class="fas fa-dove"></i> Libertad</h3>
-              <p style="text-align: justify">
+              <p class="text-justify">
                 Defendemos la libertad absoluta de conciencia y el derecho de
                 cada individuo a buscar la verdad sin dogmas ni ataduras.
                 <a href="principios.html#libertad">Conoce más sobre la Libertad masónica</a>.
@@ -378,7 +341,7 @@
             </article>
             <article class="principios__card">
               <h3><i class="fas fa-balance-scale"></i> Igualdad</h3>
-              <p style="text-align: justify">
+              <p class="text-justify">
                 Entre nosotros, no hay distinción de razas, credos o posiciones
                 sociales. Nos reunimos como iguales, unidos por un lazo
                 fraternal. <a href="principios.html#igualdad">Descubre el principio de Igualdad</a>.
@@ -386,7 +349,7 @@
             </article>
             <article class="principios__card">
               <h3><i class="fas fa-hands-helping"></i> Fraternidad</h3>
-              <p style="text-align: justify">
+              <p class="text-justify">
                 Es el cimiento de nuestra Orden. Practicamos la tolerancia, la
                 ayuda mutua y la <a href="filantropia.html">filantropía</a> como pilares de una sociedad más
                 justa. <a href="principios.html#fraternidad">Explora la Fraternidad masónica</a>.
@@ -440,10 +403,10 @@
             Un espacio para la reflexión y el debate sobre simbolismo, historia
             y filosofía masónica.
           </p>
-          <div class="blog__preview-grid">
+          <div class="grid grid-2 gap-md">
             <article class="blog__post-preview">
               <h3>El Simbolismo de la Escuadra y el Compás</h3>
-              <p style="text-align: justify">
+              <p class="text-justify">
                 Un análisis profundo de las herramientas más emblemáticas de la
                 masonería y su significado en el camino del iniciado...
               </p>
@@ -451,7 +414,7 @@
             </article>
             <article class="blog__post-preview">
               <h3>Los Orígenes Históricos de la Francmasonería</h3>
-              <p style="text-align: justify">
+              <p class="text-justify">
                 Desde los gremios de constructores medievales hasta las logias
                 especulativas del Siglo de las Luces, un recorrido por nuestra
                 historia...
