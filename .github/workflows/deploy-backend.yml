@@ -1,0 +1,78 @@
+name: Deploy Backend to Cloud Run
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "backend/**"
+      - ".github/workflows/deploy-backend.yml"
+
+env:
+  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  PROJECT_NUMBER: ${{ secrets.GCP_PROJECT_NUMBER }}
+  REGION: us-central1
+  SERVICE_NAME: repo-privado
+  ARTIFACT_REGISTRY_REPO: www-ss322
+  GCP_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+  GCP_SERVICE_ACCOUNT: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+  BACKEND_SERVICE_ID: ${{ secrets.BACKEND_SERVICE_ID }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: "read"
+      id-token: "write"
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud via Workload Identity Federation
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ env.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ env.GCP_SERVICE_ACCOUNT }}
+          project_id: ${{ env.PROJECT_ID }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Build and Push Backend Image
+        run: |
+          gcloud builds submit backend/ \
+            --project ${{ env.PROJECT_ID }} \
+            --tag ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REGISTRY_REPO }}/${{ env.SERVICE_NAME }}:${{ github.sha }} \
+            --tag ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REGISTRY_REPO }}/${{ env.SERVICE_NAME }}:latest
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy ${{ env.SERVICE_NAME }} \
+            --image ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REGISTRY_REPO }}/${{ env.SERVICE_NAME }}:${{ github.sha }} \
+            --region ${{ env.REGION }} \
+            --platform managed \
+            --no-allow-unauthenticated \
+            --ingress internal-and-cloud-load-balancing \
+            --service-account backend-sa@${{ env.PROJECT_ID }}.iam.gserviceaccount.com \
+            --set-env-vars "GCP_PROJECT_ID=${{ env.PROJECT_ID }},GCP_PROJECT_NUMBER=${{ env.PROJECT_NUMBER }},BACKEND_SERVICE_ID=${{ env.BACKEND_SERVICE_ID }},BUCKET_NAME=repo-logia,NODE_ENV=production,ADMIN_EMAILS=${{ secrets.ADMIN_EMAILS }}" \
+            --port 8080 \
+            --cpu 1 \
+            --memory 512Mi \
+            --max-instances 10 \
+            --min-instances 0 \
+            --timeout 300
+
+      - name: Deployment Summary
+        run: |
+          echo "✅ Backend deployed successfully!"
+          echo "Service: ${{ env.SERVICE_NAME }}"
+          echo "Region: ${{ env.REGION }}"
+          echo "Image: ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REGISTRY_REPO }}/${{ env.SERVICE_NAME }}:${{ github.sha }}"
+
+          # Get service URL (aunque no será accesible directamente por IAP)
+          SERVICE_URL=$(gcloud run services describe ${{ env.SERVICE_NAME }} \
+            --region ${{ env.REGION }} \
+            --format='value(status.url)')
+          echo "Service URL: $SERVICE_URL"
+          echo "⚠️  Note: Service is protected by IAP and only accessible through Load Balancer"
