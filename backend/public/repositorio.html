@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repositorio de Documentos | Sociedad del Silencio 322</title>
+    <meta name="description" content="Repositorio privado de documentos de la R∴L∴S∴ Sociedad del Silencio 322">
+    <meta name="robots" content="noindex, nofollow">
+    
+    <!-- CSS del Frontend para Header/Footer -->
+    <link rel="stylesheet" href="/privado/assets/css/style.css">
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <style>
+        /* Reset y Variables */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #1a1a2e;
+            --secondary-color: #16213e;
+            --accent-color: #c9a961;
+            --text-color: #e0e0e0;
+            --border-color: #3a3a52;
+            --success-color: #4caf50;
+            --error-color: #f44336;
+            --warning-color: #ff9800;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: var(--text-color);
+            min-height: 100vh;
+            padding: 100px 2rem 2rem 2rem; /* Reducido para header más compacto */
+        }
+
+        /* Header del Repositorio */
+        .header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            margin-top: 0.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--accent-color); /* Línea más delgada */
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+        }
+
+        .header .subtitle {
+            font-size: 1rem;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        /* User Info */
+        .user-info {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .user-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: var(--accent-color);
+            color: var(--primary-color);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+        }
+
+        /* Admin Panel */
+        .admin-panel {
+            display: none;
+            background: rgba(201, 169, 97, 0.1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border: 1px solid var(--accent-color);
+        }
+
+        .admin-panel h2 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .upload-form {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .file-input-label {
+            padding: 0.7rem 1.5rem;
+            background: var(--secondary-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-input-label:hover {
+            background: var(--accent-color);
+            color: var(--primary-color);
+        }
+
+        .btn {
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: var(--accent-color);
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(201, 169, 97, 0.4);
+        }
+
+        .btn-danger {
+            background: var(--error-color);
+            color: white;
+            font-size: 0.85rem;
+            padding: 0.5rem 1rem;
+        }
+
+        .btn-danger:hover {
+            background: #d32f2f;
+        }
+
+        /* Table */
+        .files-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .files-table thead {
+            background: rgba(201, 169, 97, 0.2);
+        }
+
+        .files-table th {
+            padding: 1rem;
+            text-align: left;
+            color: var(--accent-color);
+            font-weight: bold;
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .files-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .files-table tbody tr {
+            transition: background 0.3s;
+        }
+
+        .files-table tbody tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .file-icon {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+        }
+
+        /* Loading & Messages */
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.2rem;
+            color: var(--accent-color);
+        }
+
+        .message {
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .message.success {
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid var(--success-color);
+            color: var(--success-color);
+        }
+
+        .message.error {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid var(--error-color);
+            color: var(--error-color);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-color);
+            opacity: 0.6;
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header del Frontend -->
+    <div id="header-container"></div>
+    
+    <div class="header">
+        <h1>📚 Repositorio de Documentos</h1>
+        <p class="subtitle">R∴L∴S∴ Sociedad del Silencio 322</p>
+    </div>
+
+    <div class="container">
+        <!-- User Info -->
+        <div class="user-info">
+            <div>
+                <strong>Usuario:</strong> <span id="user-email">Cargando...</span>
+            </div>
+            <div>
+                <span id="user-role" class="user-badge">Usuario</span>
+            </div>
+        </div>
+
+        <!-- Messages -->
+        <div id="message" class="message"></div>
+
+        <!-- Admin Panel -->
+        <div id="admin-panel" class="admin-panel">
+            <h2>🔧 Panel de Administración</h2>
+            <form id="upload-form" class="upload-form">
+                <div class="file-input-wrapper">
+                    <label for="file-input" class="file-input-label">
+                        📄 Seleccionar PDF
+                    </label>
+                    <input type="file" id="file-input" accept=".pdf" required>
+                </div>
+                <span id="file-name" style="color: var(--accent-color);"></span>
+                <button type="submit" class="btn btn-primary">⬆️ Subir Documento</button>
+            </form>
+            
+            <!-- Barra de Progreso -->
+            <div id="upload-progress" style="display: none; margin-top: 1rem;">
+                <div style="background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden;">
+                    <div id="progress-bar" style="height: 8px; background: var(--accent-color); width: 0%; transition: width 0.3s;"></div>
+                </div>
+                <p id="progress-text" style="margin-top: 0.5rem; color: var(--accent-color); font-size: 0.9rem;">Subiendo...</p>
+            </div>
+        </div>
+
+        <!-- Files Table -->
+        <div id="files-container">
+            <div class="loading">⏳ Cargando documentos...</div>
+        </div>
+    </div>
+
+    <script>
+        // Estado de la aplicación
+        let currentUser = null;
+        let allFiles = []; // Almacenar todos los archivos
+        let currentPage = 1;
+        const filesPerPage = 50;
+
+        // Inicializar aplicación
+        async function init() {
+            try {
+                await loadUserInfo();
+                await loadFiles();
+            } catch (error) {
+                showMessage('Error al inicializar la aplicación: ' + error.message, 'error');
+            }
+        }
+
+        // Cargar información del usuario
+        async function loadUserInfo() {
+            try {
+                const response = await fetch('/privado/api/me');
+                if (!response.ok) throw new Error('Error al obtener información del usuario');
+                
+                currentUser = await response.json();
+                
+                document.getElementById('user-email').textContent = currentUser.email;
+                document.getElementById('user-role').textContent = currentUser.isAdmin ? 'Administrador' : 'Miembro';
+                
+                if (currentUser.isAdmin) {
+                    document.getElementById('admin-panel').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error loading user info:', error);
+                throw error;
+            }
+        }
+
+        // Cargar archivos
+        async function loadFiles() {
+            const container = document.getElementById('files-container');
+            
+            try {
+                const response = await fetch('/privado/api/files');
+                if (!response.ok) throw new Error('Error al cargar archivos');
+                
+                const data = await response.json();
+                
+                if (data.files.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📭</div>
+                            <p>No hay documentos disponibles en el repositorio</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                allFiles = data.files; // Guardar todos los archivos
+                renderFilesTable();
+            } catch (error) {
+                container.innerHTML = `<div class="error">Error al cargar archivos: ${error.message}</div>`;
+            }
+        }
+
+        // Renderizar tabla de archivos con paginación
+        function renderFilesTable() {
+            const container = document.getElementById('files-container');
+            
+            // Calcular paginación
+            const totalPages = Math.ceil(allFiles.length / filesPerPage);
+            const startIndex = (currentPage - 1) * filesPerPage;
+            const endIndex = startIndex + filesPerPage;
+            const paginatedFiles = allFiles.slice(startIndex, endIndex);
+            
+            const tableHTML = `
+                <div style="margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                    <p style="color: var(--text-color);">
+                        Mostrando ${startIndex + 1}-${Math.min(endIndex, allFiles.length)} de ${allFiles.length} documentos
+                    </p>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <button onclick="changePage(${currentPage - 1})" 
+                                ${currentPage === 1 ? 'disabled' : ''} 
+                                class="btn btn-primary" 
+                                style="padding: 0.5rem 1rem; font-size: 0.85rem; ${currentPage === 1 ? 'opacity: 0.5; cursor: not-allowed;' : ''}">
+                            ← Anterior
+                        </button>
+                        <span style="color: var(--accent-color); white-space: nowrap;">Página ${currentPage} de ${totalPages}</span>
+                        <button onclick="changePage(${currentPage + 1})" 
+                                ${currentPage === totalPages ? 'disabled' : ''} 
+                                class="btn btn-primary" 
+                                style="padding: 0.5rem 1rem; font-size: 0.85rem; ${currentPage === totalPages ? 'opacity: 0.5; cursor: not-allowed;' : ''}">
+                            Siguiente →
+                        </button>
+                    </div>
+                </div>
+                <table class="files-table">
+                    <thead>
+                        <tr>
+                            <th>Documento</th>
+                            <th>Tamaño</th>
+                            <th>Última Actualización</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${paginatedFiles.map(file => `
+                            <tr>
+                                <td>
+                                    <span class="file-icon">📄</span>
+                                    ${file.name}
+                                </td>
+                                <td>${formatFileSize(file.size)}</td>
+                                <td>${formatDate(file.updated)}</td>
+                                <td>
+                                    <a href="${file.downloadUrl}" target="_blank" class="btn btn-primary" style="text-decoration: none; padding: 0.5rem 1rem; font-size: 0.85rem;">
+                                        ⬇️ Descargar
+                                    </a>
+                                    ${currentUser && currentUser.isAdmin ? `
+                                        <button onclick="deleteFile(decodeURIComponent('${encodeURIComponent(file.name)}'))" class="btn btn-danger">
+                                            🗑️ Eliminar
+                                        </button>
+                                    ` : ''}
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+            
+            container.innerHTML = tableHTML;
+        }
+        
+        // Cambiar página
+        function changePage(newPage) {
+            const totalPages = Math.ceil(allFiles.length / filesPerPage);
+            if (newPage < 1 || newPage > totalPages) return;
+            currentPage = newPage;
+            renderFilesTable();
+        }
+
+        // Subir archivo
+        document.addEventListener('DOMContentLoaded', () => {
+            const uploadForm = document.getElementById('upload-form');
+            const fileInput = document.getElementById('file-input');
+            const fileName = document.getElementById('file-name');
+            
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    fileName.textContent = e.target.files[0].name;
+                }
+            });
+            
+            uploadForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const file = fileInput.files[0];
+                if (!file) {
+                    showMessage('Por favor selecciona un archivo', 'error');
+                    return;
+                }
+                
+                // Validar tamaño (10MB)
+                if (file.size > 10 * 1024 * 1024) {
+                    showMessage('❌ El archivo excede el tamaño máximo de 10MB', 'error');
+                    return;
+                }
+                
+                // Validar tipo
+                if (file.type !== 'application/pdf') {
+                    showMessage('❌ Solo se permiten archivos PDF', 'error');
+                    return;
+                }
+                
+                const formData = new FormData();
+                formData.append('file', file);
+                
+                // Mostrar barra de progreso
+                const progressContainer = document.getElementById('upload-progress');
+                const progressBar = document.getElementById('progress-bar');
+                const progressText = document.getElementById('progress-text');
+                progressContainer.style.display = 'block';
+                progressBar.style.width = '0%';
+                
+                // Usar XMLHttpRequest para tracking de progreso
+                const xhr = new XMLHttpRequest();
+                
+                xhr.upload.addEventListener('progress', (e) => {
+                    if (e.lengthComputable) {
+                        const percentComplete = (e.loaded / e.total) * 100;
+                        progressBar.style.width = percentComplete + '%';
+                        progressText.textContent = `Subiendo... ${Math.round(percentComplete)}%`;
+                    }
+                });
+                
+                xhr.addEventListener('load', () => {
+                    progressContainer.style.display = 'none';
+                    
+                    if (xhr.status === 200 || xhr.status === 201) {
+                        showMessage('✅ Archivo subido exitosamente', 'success');
+                        uploadForm.reset();
+                        fileName.textContent = '';
+                        currentPage = 1; // Volver a la primera página
+                        loadFiles();
+                    } else {
+                        try {
+                            const response = JSON.parse(xhr.responseText);
+                            showMessage('❌ ' + (response.message || 'Error al subir archivo'), 'error');
+                        } catch {
+                            showMessage('❌ Error al subir archivo', 'error');
+                        }
+                    }
+                });
+                
+                xhr.addEventListener('error', () => {
+                    progressContainer.style.display = 'none';
+                    showMessage('❌ Error de red al subir archivo', 'error');
+                });
+                
+                xhr.addEventListener('timeout', () => {
+                    progressContainer.style.display = 'none';
+                    showMessage('❌ Timeout: El archivo es demasiado grande o la conexión es lenta', 'error');
+                });
+                
+                xhr.addEventListener('abort', () => {
+                    progressContainer.style.display = 'none';
+                    showMessage('⚠️ Upload cancelado', 'warning');
+                });
+                
+                xhr.timeout = 120000; // 2 minutos de timeout
+                xhr.open('POST', '/privado/api/upload');
+                xhr.send(formData);
+            });
+        });
+
+        // Eliminar archivo
+        async function deleteFile(filename) {
+            if (!confirm(`¿Estás seguro de eliminar "${filename}"?`)) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/privado/api/files/${encodeURIComponent(filename)}`, {
+                    method: 'DELETE'
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.message || 'Error al eliminar archivo');
+                }
+                
+                showMessage('✅ Archivo eliminado exitosamente', 'success');
+                await loadFiles();
+            } catch (error) {
+                showMessage('❌ ' + error.message, 'error');
+            }
+        }
+
+        // Utilidades
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('es-MX', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        function showMessage(text, type) {
+            const messageEl = document.getElementById('message');
+            messageEl.textContent = text;
+            messageEl.className = `message ${type}`;
+            messageEl.style.display = 'block';
+            
+            setTimeout(() => {
+                messageEl.style.display = 'none';
+            }, 5000);
+        }
+
+        // Iniciar aplicación
+        init();
+    </script>
+    
+    <!-- Footer del Frontend -->
+    <div id="footer-container"></div>
+    
+    <!-- Cargar Header y Footer -->
+    <script>
+        // Cargar Header
+        fetch('/privado/_header.html')
+            .then(r => r.text())
+            .then(html => {
+                document.getElementById('header-container').innerHTML = html;
+                // Inicializar menú hamburguesa si existe
+                if (typeof initMobileMenu === 'function') {
+                    initMobileMenu();
+                }
+            })
+            .catch(err => console.error('Error cargando header:', err));
+        
+        // Cargar Footer
+        fetch('/privado/_footer.html')
+            .then(r => r.text())
+            .then(html => {
+                document.getElementById('footer-container').innerHTML = html;
+            })
+            .catch(err => console.error('Error cargando footer:', err));
+    </script>
+</body>
+</html>
