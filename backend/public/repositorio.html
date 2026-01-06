@@ -7,6 +7,11 @@
     <meta name="description" content="Repositorio privado de documentos de la R∴L∴S∴ Sociedad del Silencio 322">
     <meta name="robots" content="noindex, nofollow">
     
+    <!-- CSS del Frontend para Header/Footer -->
+    <link rel="stylesheet" href="/privado/assets/css/style.css">
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
     <style>
         /* Reset y Variables */
         * {
@@ -31,15 +36,16 @@
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             color: var(--text-color);
             min-height: 100vh;
-            padding: 2rem;
+            padding: 100px 2rem 2rem 2rem; /* Reducido para header más compacto */
         }
 
-        /* Header */
+        /* Header del Repositorio */
         .header {
             text-align: center;
-            margin-bottom: 3rem;
-            padding-bottom: 2rem;
-            border-bottom: 2px solid var(--accent-color);
+            margin-bottom: 1.5rem;
+            margin-top: 0.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--accent-color); /* Línea más delgada */
         }
 
         .header h1 {
@@ -246,6 +252,9 @@
     </style>
 </head>
 <body>
+    <!-- Header del Frontend -->
+    <div id="header-container"></div>
+    
     <div class="header">
         <h1>📚 Repositorio de Documentos</h1>
         <p class="subtitle">R∴L∴S∴ Sociedad del Silencio 322</p>
@@ -278,6 +287,14 @@
                 <span id="file-name" style="color: var(--accent-color);"></span>
                 <button type="submit" class="btn btn-primary">⬆️ Subir Documento</button>
             </form>
+            
+            <!-- Barra de Progreso -->
+            <div id="upload-progress" style="display: none; margin-top: 1rem;">
+                <div style="background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden;">
+                    <div id="progress-bar" style="height: 8px; background: var(--accent-color); width: 0%; transition: width 0.3s;"></div>
+                </div>
+                <p id="progress-text" style="margin-top: 0.5rem; color: var(--accent-color); font-size: 0.9rem;">Subiendo...</p>
+            </div>
         </div>
 
         <!-- Files Table -->
@@ -289,6 +306,9 @@
     <script>
         // Estado de la aplicación
         let currentUser = null;
+        let allFiles = []; // Almacenar todos los archivos
+        let currentPage = 1;
+        const filesPerPage = 50;
 
         // Inicializar aplicación
         async function init() {
@@ -303,7 +323,7 @@
         // Cargar información del usuario
         async function loadUserInfo() {
             try {
-                const response = await fetch('/api/me');
+                const response = await fetch('/privado/api/me');
                 if (!response.ok) throw new Error('Error al obtener información del usuario');
                 
                 currentUser = await response.json();
@@ -325,7 +345,7 @@
             const container = document.getElementById('files-container');
             
             try {
-                const response = await fetch('/api/files');
+                const response = await fetch('/privado/api/files');
                 if (!response.ok) throw new Error('Error al cargar archivos');
                 
                 const data = await response.json();
@@ -340,17 +360,44 @@
                     return;
                 }
                 
-                renderFilesTable(data.files);
+                allFiles = data.files; // Guardar todos los archivos
+                renderFilesTable();
             } catch (error) {
                 container.innerHTML = `<div class="error">Error al cargar archivos: ${error.message}</div>`;
             }
         }
 
-        // Renderizar tabla de archivos
-        function renderFilesTable(files) {
+        // Renderizar tabla de archivos con paginación
+        function renderFilesTable() {
             const container = document.getElementById('files-container');
             
+            // Calcular paginación
+            const totalPages = Math.ceil(allFiles.length / filesPerPage);
+            const startIndex = (currentPage - 1) * filesPerPage;
+            const endIndex = startIndex + filesPerPage;
+            const paginatedFiles = allFiles.slice(startIndex, endIndex);
+            
             const tableHTML = `
+                <div style="margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                    <p style="color: var(--text-color);">
+                        Mostrando ${startIndex + 1}-${Math.min(endIndex, allFiles.length)} de ${allFiles.length} documentos
+                    </p>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <button onclick="changePage(${currentPage - 1})" 
+                                ${currentPage === 1 ? 'disabled' : ''} 
+                                class="btn btn-primary" 
+                                style="padding: 0.5rem 1rem; font-size: 0.85rem; ${currentPage === 1 ? 'opacity: 0.5; cursor: not-allowed;' : ''}">
+                            ← Anterior
+                        </button>
+                        <span style="color: var(--accent-color); white-space: nowrap;">Página ${currentPage} de ${totalPages}</span>
+                        <button onclick="changePage(${currentPage + 1})" 
+                                ${currentPage === totalPages ? 'disabled' : ''} 
+                                class="btn btn-primary" 
+                                style="padding: 0.5rem 1rem; font-size: 0.85rem; ${currentPage === totalPages ? 'opacity: 0.5; cursor: not-allowed;' : ''}">
+                            Siguiente →
+                        </button>
+                    </div>
+                </div>
                 <table class="files-table">
                     <thead>
                         <tr>
@@ -361,7 +408,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        ${files.map(file => `
+                        ${paginatedFiles.map(file => `
                             <tr>
                                 <td>
                                     <span class="file-icon">📄</span>
@@ -374,7 +421,7 @@
                                         ⬇️ Descargar
                                     </a>
                                     ${currentUser && currentUser.isAdmin ? `
-                                        <button onclick="deleteFile('${file.name}')" class="btn btn-danger">
+                                        <button onclick="deleteFile(decodeURIComponent('${encodeURIComponent(file.name)}'))" class="btn btn-danger">
                                             🗑️ Eliminar
                                         </button>
                                     ` : ''}
@@ -386,6 +433,14 @@
             `;
             
             container.innerHTML = tableHTML;
+        }
+        
+        // Cambiar página
+        function changePage(newPage) {
+            const totalPages = Math.ceil(allFiles.length / filesPerPage);
+            if (newPage < 1 || newPage > totalPages) return;
+            currentPage = newPage;
+            renderFilesTable();
         }
 
         // Subir archivo
@@ -400,7 +455,7 @@
                 }
             });
             
-            uploadForm.addEventListener('submit', async (e) => {
+            uploadForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 
                 const file = fileInput.files[0];
@@ -409,28 +464,76 @@
                     return;
                 }
                 
+                // Validar tamaño (10MB)
+                if (file.size > 10 * 1024 * 1024) {
+                    showMessage('❌ El archivo excede el tamaño máximo de 10MB', 'error');
+                    return;
+                }
+                
+                // Validar tipo
+                if (file.type !== 'application/pdf') {
+                    showMessage('❌ Solo se permiten archivos PDF', 'error');
+                    return;
+                }
+                
                 const formData = new FormData();
                 formData.append('file', file);
                 
-                try {
-                    const response = await fetch('/api/upload', {
-                        method: 'POST',
-                        body: formData
-                    });
-                    
-                    const data = await response.json();
-                    
-                    if (!response.ok) {
-                        throw new Error(data.message || 'Error al subir archivo');
+                // Mostrar barra de progreso
+                const progressContainer = document.getElementById('upload-progress');
+                const progressBar = document.getElementById('progress-bar');
+                const progressText = document.getElementById('progress-text');
+                progressContainer.style.display = 'block';
+                progressBar.style.width = '0%';
+                
+                // Usar XMLHttpRequest para tracking de progreso
+                const xhr = new XMLHttpRequest();
+                
+                xhr.upload.addEventListener('progress', (e) => {
+                    if (e.lengthComputable) {
+                        const percentComplete = (e.loaded / e.total) * 100;
+                        progressBar.style.width = percentComplete + '%';
+                        progressText.textContent = `Subiendo... ${Math.round(percentComplete)}%`;
                     }
+                });
+                
+                xhr.addEventListener('load', () => {
+                    progressContainer.style.display = 'none';
                     
-                    showMessage('✅ Archivo subido exitosamente', 'success');
-                    uploadForm.reset();
-                    fileName.textContent = '';
-                    await loadFiles();
-                } catch (error) {
-                    showMessage('❌ ' + error.message, 'error');
-                }
+                    if (xhr.status === 200 || xhr.status === 201) {
+                        showMessage('✅ Archivo subido exitosamente', 'success');
+                        uploadForm.reset();
+                        fileName.textContent = '';
+                        currentPage = 1; // Volver a la primera página
+                        loadFiles();
+                    } else {
+                        try {
+                            const response = JSON.parse(xhr.responseText);
+                            showMessage('❌ ' + (response.message || 'Error al subir archivo'), 'error');
+                        } catch {
+                            showMessage('❌ Error al subir archivo', 'error');
+                        }
+                    }
+                });
+                
+                xhr.addEventListener('error', () => {
+                    progressContainer.style.display = 'none';
+                    showMessage('❌ Error de red al subir archivo', 'error');
+                });
+                
+                xhr.addEventListener('timeout', () => {
+                    progressContainer.style.display = 'none';
+                    showMessage('❌ Timeout: El archivo es demasiado grande o la conexión es lenta', 'error');
+                });
+                
+                xhr.addEventListener('abort', () => {
+                    progressContainer.style.display = 'none';
+                    showMessage('⚠️ Upload cancelado', 'warning');
+                });
+                
+                xhr.timeout = 120000; // 2 minutos de timeout
+                xhr.open('POST', '/privado/api/upload');
+                xhr.send(formData);
             });
         });
 
@@ -441,7 +544,7 @@
             }
             
             try {
-                const response = await fetch(`/api/files/${encodeURIComponent(filename)}`, {
+                const response = await fetch(`/privado/api/files/${encodeURIComponent(filename)}`, {
                     method: 'DELETE'
                 });
                 
@@ -489,6 +592,32 @@
 
         // Iniciar aplicación
         init();
+    </script>
+    
+    <!-- Footer del Frontend -->
+    <div id="footer-container"></div>
+    
+    <!-- Cargar Header y Footer -->
+    <script>
+        // Cargar Header
+        fetch('/privado/_header.html')
+            .then(r => r.text())
+            .then(html => {
+                document.getElementById('header-container').innerHTML = html;
+                // Inicializar menú hamburguesa si existe
+                if (typeof initMobileMenu === 'function') {
+                    initMobileMenu();
+                }
+            })
+            .catch(err => console.error('Error cargando header:', err));
+        
+        // Cargar Footer
+        fetch('/privado/_footer.html')
+            .then(r => r.text())
+            .then(html => {
+                document.getElementById('footer-container').innerHTML = html;
+            })
+            .catch(err => console.error('Error cargando footer:', err));
     </script>
 </body>
 </html>

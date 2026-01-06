@@ -1,117 +1,168 @@
-# 📜 GEMINI.md: Documentación del Proyecto
+# 📜 GEMINI.md: Estándar de Desarrollo Web & SEO (Plantilla Maestra)
 
-Este archivo detalla la estructura, las convenciones y los requisitos de optimización (SEO y A11y) del sitio web del blog de la Respetable Logia Simbólica Sociedad del Silencio 322.
+Este documento define la arquitectura, convenciones y estándares de calidad para el desarrollo de Landing Pages y Sitios Web de Alto Impacto. Diseñado para ser reutilizado como la "verdad absoluta" en nuevos proyectos.
 
-## 1. Sobre el Proyecto
+---
 
-El proyecto es el sitio web oficial del blog de la **R∴L∴S∴ Sociedad del Silencio 322**, jurisdiccionada a la **Muy Respetable Gran Logia del Valle de México**.
+## 1. 🎯 Objetivos del Proyecto (Personalizar por Proyecto)
 
-*   **Objetivo Principal:** Difundir contenido sobre Masonería, Filosofía, Historia y Filantropía con el fin de atraer a candidatos cualificados de alto nivel (empresarios, políticos, profesionistas) para su iniciación.
-*   **Temas Clave:** Masonería, Liderazgo, Filantropía Estratégica, Filosofía Aplicada, Historia Masónica.
-*   **Tecnología:** Sitio estático/Híbrido utilizando HTML5, CSS y JavaScript para el frontend, con Ghost como backend (CMS) para la gestión del contenido del blog.
-*   **Ubicación y Reuniones:** Sadi Carnot #75, Ciudad de México. Miércoles a las 8:00 p.m.
+- **Nombre del Proyecto:** [NOMBRE_DEL_PROYECTO]
+- **Misión:** Crear una presencia digital autoritaria, estética y performante.
+- **Público Objetivo:** [DEFINIR_TARGET, ej: Empresarios, Clientes Premium, etc.]
+- **Conversión:** [DEFINIR_KPI, ej: Formulario de Contacto, Suscripción, Venta]
 
-## 2. Puesta en Marcha y Despliegue
+---
 
-El proyecto está diseñado para ejecutarse en la infraestructura de Google Cloud.
+## 2. 🛠️ Stack Tecnológico (Filosofía "Cero Dependencias")
 
-*   **Plataforma de Despliegue:** Google Cloud Run (para el frontend y/o la instancia de Ghost).
-*   **Despliegue (Ejemplo - Cloud Run):**
-    *   Asegurarse de tener la imagen de Ghost configurada o el sitio estático empaquetado.
-    *   Utilizar `gcloud run deploy` para desplegar el servicio.
-    *   Gestionar las variables de entorno para la conexión con el CMS (si aplica).
-*   **Nota:** Se requiere configurar un `Dockerfile` y `.dockerignore` adaptados a un build de Cloud Run (ya sea para el frontend estático o el CMS Ghost).
+Priorizamos el rendimiento nativo y la mantenibilidad a largo plazo sobre frameworks pesados.
 
-## 3. Estructura y Archivos Clave
+- **Frontend:**
+  - **HTML5:** Semántico y accesible.
+  - **CSS3:** Vanilla con Arquitectura de Variables (Custom Properties) y metodología BEM.
+  - **JavaScript:** Vanilla ES6+ (Sin jQuery, React o Vue para sitios estáticos).
+- **Assets:**
+  - Iconos: FontAwesome (vía CDN o local optimizado).
+  - Fuentes: Google Fonts (Carga asíncrona optimizada).
+- **Infraestructura:**
+  - **Docker:** Contenedor Nginx Alpine para servir contenido estático.
+  - **Cloud:** Google Cloud Run (Serverless).
 
-El proyecto mantendrá la nomenclatura existente y requerirá documentación exhaustiva.
+---
 
-*   **index.html:** La página principal (Landing Page).
-*   **quienes-somos.html (o Ruta):** Información sobre la Logia, su historia y su jurisdicción.
-*   **principios.html:** Contenido central sobre los principios filosóficos masónicos.
-*   **filantropia.html:** Contenido enfocado en el impacto social y estratégico de la filantropía.
-*   **contacto-candidatos.html (o Ruta):** Formulario de contacto enfocado en la postulación.
-*   **css/styles.css:** Archivo principal de estilos (manteniendo el estilo existente).
-*   **blog/blog.html:** La página principal del listado de entradas del blog.
-*   **js/:** Archivos de JavaScript (para interacciones y funcionalidades del menú/formulario).
+## 3. 📂 Estructura de Directorios Estándar
 
-### Requisito de Documentación:
+```text
+/
+├── .agent/             # Workflows y reglas del agente AI
+├── src/                # Código Fuente Web
+│   ├── assets/
+│   │   ├── css/
+│   │   │   └── style.css       # Único archivo CSS (con @import si es necesario, pero preferible unificado)
+│   │   ├── js/
+│   │   │   └── main.js         # Lógica JS unificada (Nav, Form, Animaciones)
+│   │   ├── images/             # Imágenes optimizadas (WebP preferido)
+│   │   └── videos/
+│   ├── _header.html    # Server Side Include (SSI) para Header
+│   ├── _footer.html    # Server Side Include (SSI) para Footer
+│   ├── index.html      # Landing Page Principal
+│   ├── 404.html        # Página de Error
+│   ├── sitemap.xml     # Mapa del sitio
+│   └── robots.txt      # Reglas de indexación
+├── Dockerfile          # Configuración de build Nginx
+├── nginx.conf          # Configuración del servidor (Gzip, Cache, Security Headers)
+└── README.md           # Documentación específica del proyecto
+```
 
-*   **README.md:** Debe estar bien documentado, con instrucciones claras (Ver Sección 7).
-*   **Comentarios en Código:** Todos los archivos HTML y CSS deben incluir comentarios que documenten la sección de código y su propósito.
+---
 
-## 4. Convenciones de Código y Nomenclatura
+## 4. 🎨 Sistema de Diseño "Premium" (CSS Architecture)
 
-Se mantendrán y se reforzarán las siguientes convenciones para garantizar la uniformidad y el mantenimiento.
+Todo proyecto debe iniciar definiendo el sistema de variables en `:root`.
 
-*   **Clases CSS:** Usar BEM (Block-Element-Modifier).
-    *   **Ejemplo:** `header-principal__logo--oscuro`.
-*   **Archivos/Rutas:** Usar kebab-case para todos los nombres de archivos HTML y directorios.
-    *   **Ejemplo:** `quienes-somos.html`, `/contacto-candidatos`.
-*   **JavaScript:** Usar camelCase para funciones y variables.
-    *   **Ejemplo:** `validarFormularioIniciacion()`.
+### 4.1 Variables CSS Esenciales
 
-## 5. Optimización para Motores de Búsqueda (SEO) 🔎
+- **Paleta:** `--color-primario`, `--color-secundario`, `--color-acento`, `--color-texto`.
+- **Gradientes:** `--gradient-primary`, `--gradient-gold` (o acento correspondiente).
+- **Tipografía:** `--font-principal` (Cuerpo), `--font-secundaria` (Títulos).
+- **Espaciado:** `--space-xs` a `--space-xl`.
+- **Efectos (The "Juice"):**
+  - `--shadow-premium-sm/md/lg`: Sombras suaves y difusas.
+  - `--transition-smooth`: `all 0.3s cubic-bezier(0.4, 0, 0.2, 1)`.
 
-El SEO orgánico es la prioridad máxima para atraer a candidatos de alto nivel (empresarios, políticos, profesionistas).
+### 4.2 Efectos Visuales Obligatorios
 
-| Elemento | Regla de Implementación | Ejemplo para index.html |
-| :--- | :--- | :--- |
-| **Title** | Estructura: `[Tópico Principal] | [Nombre de la Logia]` | `Liderazgo y Masonería | Logia Sociedad del Silencio 322` |
-| **Meta Description** | Única, enfocada en el desarrollo de carácter, ética, influencia y red de contactos para la élite profesional. Debe filtrar al público objetivo. | `Descubra el camino masónico que ha moldeado a líderes, políticos y profesionistas de alto nivel. La Sociedad del Silencio 322: Ética, influencia y desarrollo personal de élite.` |
-| **Canonicalization** | `<link rel="canonical">` siempre incluido, apuntando a la URL preferida para evitar duplicidad de contenido (especialmente importante con Ghost). | `<link rel="canonical" href="https://www.sociedaddelsilencio322.org/index.html">` |
-| **Robots** | Usar `index, follow` por defecto en todas las páginas. | `<meta name="robots" content="index, follow">` |
+1.  **Glassmorphism:** En Headers y Modales (`backdrop-filter: blur()`).
+2.  **Scroll Reveal:** Elementos entran con `opacity: 0` -> `1` y `translateY` al hacer scroll.
+3.  **Hover States:** Feedback visual inmediato (elevación, brillo, cambio de borde).
+4.  **Micro-interacciones:** Botones con efectos de shimmer o glow.
 
-## 5.2. Semántica y Estructura del Contenido
-    * Etiquetas H: Estricta jerarquía lógica.
+---
 
-        Solo un <h1> por página, conteniendo la palabra clave principal con un enfoque elevado (Masonería y Liderazgo, Ética Profesional, Filantropía Estratégica).
+## 5. 🔎 SEO Técnico Avanzado (Zero Compromise)
 
-    * Usar <h2> para los módulos de contenido clave (ej. "Valores Masónicos en la Esfera Pública", "El Liderazgo a través de la Filosofía").
+El SEO no es un afterthought, es la base del desarrollo.
 
-    * HTML Semántico: Priorizar el uso de <main>, <nav>, <header>, <footer>, <section> y <article> para la estructura del contenido, reduciendo el uso de <div>.
+### 5.1 Metadatos Base
 
-Accesibilidad (A11y): Las imágenes deben tener un atributo alt descriptivo. Usar ARIA para enlaces y botones clave.
+- **Title:** `[Palabra Clave Principal] | [Nombre Marca]` (aprox 60 caracteres).
+- **Description:** Única por página, persuasiva, incluye CTA (aprox 155 caracteres).
+- **Canonical:** Autoreferencial obligatoria `<link rel="canonical" href="...">`.
+- **Robots:** `index, follow` por defecto.
 
-## 5.3. Datos Estructurados (JSON-LD)
-*   **Requerido: Incluir datos estructurados en formato JSON-LD en el <head> de cada página.
+### 5.2 Datos Estructurados (JSON-LD)
 
-*   **index.html y quienes-somos.html: Deben incluir el Schema Organization y LocalBusiness (énfasis en la dirección: Sadi Carnot #75, CDMX, y el horario de reunión para el networking).
+Implementar en `<head>` de cada página relevante:
 
-*   **Blog/Artículos: Usar el Schema Article (o BlogPosting según Ghost) para cada entrada.
+- **LocalBusiness/Organization:** En `index.html` y `contacto`.
+- **BreadcrumbList:** En todas las páginas internas.
+- **Article:** En páginas de blog.
+- **FAQPage:** Si hay sección de preguntas frecuentes.
 
-## 6. Accesibilidad (A11y) ♿
+### 5.3 Open Graph & Twitter Cards
 
-El sitio debe cumplir con las pautas de WCAG 2.1 Nivel AA.
+Etiquetas `og:title`, `og:description`, `og:image`, `og:type` configuradas para compartir en redes sociales de forma atractiva.
 
-*   **Contraste de Color:** Mínimo 4.5:1 para texto normal.
-*   **Texto Alternativo:** Todas las imágenes (`<img>`) deben tener un atributo `alt` descriptivo.
-*   **Navegación por Teclado:** El sitio debe ser completamente navegable usando solo el teclado.
-*   **ARIA Roles:** Usar roles ARIA donde sea necesario para mejorar la semántica.
+---
 
-### 6.1 Integración con Redes Sociales y Plataformas
-Se deben implementar etiquetas que faciliten la compartición y el rastreo social.
+## 6. ⚡ Performance & Core Web Vitals
 
-*   **Open Graph (OG):** Incluir las meta etiquetas OG (ej. `og:title`, `og:description`, `og:image`) para Facebook, Instagram y LinkedIn.
+### 6.1 Imágenes
 
-*   **Twitter Cards:** Incluir meta etiquetas específicas para X (Twitter).
+- Uso de formatos modernos (**WebP**) donde sea posible.
+- Atributo `loading="lazy"` en todas las imágenes bajo el "fold".
+- Dimensiones explícitas `width` y `height` para evitar **CLS** (Cumulative Layout Shift).
 
-*   **Enlaces de Redes Sociales:** Los iconos/enlaces a YouTube, Instagram, Facebook, X y TikTok deben ser visibles en el footer
+### 6.2 Fuentes (Typography)
 
-## 7. Documentación y Mantenimiento
+- **Preconnect:** A `fonts.googleapis.com` y `fonts.gstatic.com`.
+- **Async Loading:** Carga con `media="print" onload="this.media='all'"` para evitar bloqueo de renderizado.
+- **Display Swap:** `&display=swap` en la URL de la fuente.
 
-*   **README.md:**
-    *   Instrucciones de instalación y despliegue.
-    *   Descripción de la arquitectura.
-    *   Guía de contribución.
-*   **Comentarios en el Código:**
-    *   Comentar cada sección de CSS y HTML.
-    *   Explicar la lógica de las funciones de JavaScript.
+### 6.3 Scripts
 
-## 8. Plan de Contenido
+- `defer` en scripts no críticos (`main.js`).
+- Scripts de terceros (Analytics, Chat) diferidos hasta interacción del usuario o `window.onload`.
 
-El contenido del blog se centrará en los temas clave definidos en la sección 1.
+---
 
-*   **Frecuencia:** 1-2 artículos por semana.
-*   **Tono:** Serio, académico y profesional.
-*   **Autores:** Miembros de la logia y expertos invitados.
+## 7. ♿ Accesibilidad (A11y - WCAG 2.1 AA)
+
+- **Contraste:** Ratio mínimo de 4.5:1 para texto normal.
+- **Semántica:** Uso correcto de `<header>`, `<nav>`, `<main>`, `<article>`, `<footer>`.
+- **Navegación:** Focus visible (`outline`) y orden lógico de tabulación.
+- **Multimedia:** Atributos `alt` descriptivos en todas las imágenes.
+- **Formularios:** Etiquetas `<label>` explícitas asociadas a inputs.
+
+---
+
+## 8. 🚀 Workflow de Despliegue (Docker + Cloud Run)
+
+### 8.1 Dockerfile Estándar
+
+```dockerfile
+FROM nginx:alpine
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY src/ /usr/share/nginx/html/
+# Opcional: Pasos de minificación aquí si no se hacen pre-build
+```
+
+### 8.2 Nginx.conf (Optimizado)
+
+- Habilitar **Gzip Compression**.
+- Configurar **Cache-Control** agresivo para assets estáticos (imágenes, css, js).
+- Configurar **Security Headers** (X-Frame-Options, X-Content-Type-Options).
+- Manejo de errores 404 personalizados.
+
+---
+
+## 9. 🔄 Mantenimiento y Evolución
+
+Al crear una nueva página para el proyecto, seguir este checklist:
+
+1.  [ ] Crear HTML con estructura semántica base.
+2.  [ ] Definir Metadatos y Canonical.
+3.  [ ] Añadir JSON-LD específico.
+4.  [ ] Aplicar clases de utilidad del Sistema de Diseño (`.container`, `.grid`, `.text-justify`, `.btn`).
+5.  [ ] Integrar clases de animación (`.animate-on-scroll`).
+6.  [ ] Validar en Lighthouse (Mobile/Desktop) buscando >95 en todas las métricas.

@@ -28,9 +28,10 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'"],
-      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-hashes'"],
+      scriptSrcAttr: ["'unsafe-inline'"], // Permitir onclick inline
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://cdnjs.cloudflare.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com"],
       imgSrc: ["'self'", "data:", "https:"],
       connectSrc: ["'self'", "https://storage.googleapis.com"]
     }
@@ -43,9 +44,9 @@ app.use(cors({
   credentials: true
 }));
 
-// Parsers
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// Parsers (aumentados para uploads grandes)
+app.use(express.json({ limit: '15mb' }));
+app.use(express.urlencoded({ extended: true, limit: '15mb' }));
 
 // Configuración de Multer para manejo de archivos
 const upload = multer({
@@ -67,7 +68,13 @@ const upload = multer({
 // ============================================================================
 
 // Servir archivos estáticos desde /public
-app.use(express.static(path.join(__dirname, '../public')));
+// Servir archivos estáticos bajo el prefijo /privado
+app.use('/privado', express.static(path.join(__dirname, '../public')));
+
+// Redirección raíz a /privado/repositorio.html por si acaso
+app.get('/', (req, res) => {
+  res.redirect('/privado/repositorio.html');
+});
 
 // Health check (para Cloud Run)
 app.get('/health', (req, res) => {
@@ -83,19 +90,20 @@ app.get('/health', (req, res) => {
 // ============================================================================
 
 // Aplicar middleware de verificación IAP a todas las rutas /api/*
-app.use('/api', verifyIAP);
+// Aplicar middleware de verificación IAP a todas las rutas /privado/api/*
+app.use('/privado/api', verifyIAP);
 
 // Información del usuario autenticado
-app.get('/api/me', filesController.getMe);
+app.get('/privado/api/me', filesController.getMe);
 
 // Listar archivos (Todos los usuarios autenticados)
-app.get('/api/files', filesController.listFiles);
+app.get('/privado/api/files', filesController.listFiles);
 
 // Subir archivo (Solo Admins)
-app.post('/api/upload', requireAdmin, upload.single('file'), filesController.uploadFile);
+app.post('/privado/api/upload', requireAdmin, upload.single('file'), filesController.uploadFile);
 
 // Eliminar archivo (Solo Admins)
-app.delete('/api/files/:name', requireAdmin, filesController.deleteFile);
+app.delete('/privado/api/files/:name', requireAdmin, filesController.deleteFile);
 
 // ============================================================================
 // MANEJO DE ERRORES
